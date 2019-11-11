@@ -35,11 +35,14 @@ class BatAlgorithm():
 
         # инициализировать значения х (местоположение / решение) для всех летучих мышей
         self.x = [[0.0 for i in range(self.dimensi)] for j in range(self.n_bat)]
-
+        
         # инициализировать значение пригодности для всех летучих мышей
         self.nilai_fitness = [0.0] * n_bat
         self.nilai_fitness_minimum = 0.0
-
+        
+        #инициализиуем массив для истории улучшения
+        self.history = []
+        
         # инициализация лучшего решения
         self.best = [0.0] * dimensi
 
@@ -94,7 +97,7 @@ class BatAlgorithm():
         solusi = [[0.0 for i in range(self.dimensi)] for j in range(self.n_bat)]
 
         self.proses_init()
-        print(self.nilai_fitness)
+#         print(self.nilai_fitness)
 
         for n in range(self.n_generasi):
             Arata2 = np.mean(self.A)
@@ -136,8 +139,12 @@ class BatAlgorithm():
                         # обновлять громкость и частоту пульса каждой летучей мыши
                     self.A[i] = self.A[i] * self.alpha
                     self.r[i] = self.r0 * (1 - math.exp(-1 * self.gamma * i))
-            print("Ценность поколения для расчёта (", n, ") : ", self.nilai_fitness)
+#             print("Ценность поколении для расчёта (", n, ") : ", self.nilai_fitness)
+            self.history.append (self.nilai_fitness_minimum)
             print("Лучшая ценность для расчёта ", self.nilai_fitness_minimum)
             print("Лучшее решение ", self.best)
+            if abs(np.mean(self.history[n-6:n-1])-self.nilai_fitness_minimum) < self.epsilon:
+                self.history = np.array(self.history)
+                break
         print(self.nilai_fitness_minimum)
         print(self.best)
