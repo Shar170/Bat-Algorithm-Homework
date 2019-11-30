@@ -12,10 +12,9 @@ def funEasom(d):
         res = -1 * res
     return res
 
-
 dimensi= 2
 n_bat=100
-n_generasi=1000
+n_generasi=100000
 r0=0.1
 alpha=0.95
 gamma=0.95
