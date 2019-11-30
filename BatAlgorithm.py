@@ -5,7 +5,7 @@ np.random.seed(100)
 
 
 class BatAlgorithm():
-    def __init__(self, dimensi, n_bat, n_generasi, r0, alpha, gamma, fmin, fmax, b_down, b_up, fungsi):
+    def __init__(self, dimensi, n_bat, n_generasi, r0, alpha, gamma, fmin, fmax, b_down, b_up, fungsi, maxCount):
         self.dimensi = dimensi
         self.n_bat = n_bat
         self.n_generasi = n_generasi
@@ -18,7 +18,7 @@ class BatAlgorithm():
         self.fungsi = fungsi
         self.epsilon = 0.001
         self.r0 = r0
-        self.maxCount = 600
+        self.maxCount = maxCount
 
         # инициализировать значения громкости (A) и частоты пульса (r)
         self.A = [0.95 for i in range(self.n_bat)]
@@ -92,14 +92,16 @@ class BatAlgorithm():
             nilai = self.b_down
 
         return nilai
+    def getMaxCount(self):
+        return self.maxCount
 
     def proses_ba(self):
         # матричное решение (много размеров ЛМ х РАЗМЕРНОСТЬ)
         solusi = [[0.0 for i in range(self.dimensi)] for j in range(self.n_bat)]
-        count = 0;
+        count = 0
         self.proses_init()
         #         print(self.nilai_fitness)
-
+        # np.random.seed(self.dimensi*self.maxCount/(self.maxCount+np.exp(self.dimensi)))
         for n in range(self.n_generasi):
             Arata2 = np.mean(self.A)
             for i in range(self.n_bat):
@@ -142,7 +144,7 @@ class BatAlgorithm():
                     self.r[i] = self.r0 * (1 - math.exp(-1 * self.gamma * i))
             #             print("Ценность поколении для расчёта (", n, ") : ", self.nilai_fitness)
             self.history.append(self.nilai_fitness_minimum)
-            print(n, ' Решение %.4f' % self.nilai_fitness_minimum, '\t', self.best)
+            #print(n, ' Решение %.4f' % self.nilai_fitness_minimum, '\t', self.best)
             # print("Лучшее решение ", )
 
             if n > self.maxCount+2:
@@ -150,11 +152,13 @@ class BatAlgorithm():
                     count = count + 1
                     if count >= self.maxCount:
                         print('Улучшений не было в течении ', self.maxCount, ' прошло ', n, 'итераций')
+                        print(n, ' Решение %.4f' % self.nilai_fitness_minimum, '\t', self.best)
                         self.history = np.array(self.history)
                         return 0
                 else:
-                    print('count сброшен')
+                    #print('count сброшен')
                     count = 0
         print('Расчёт закончился по истечению максимума итераций (', self.n_generasi, ')')
         print(self.nilai_fitness_minimum)
         print(self.best)
+        return 1
