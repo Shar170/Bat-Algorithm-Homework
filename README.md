@@ -14,4 +14,4 @@
 
 Данный алгоритм моделирует движение летучих мышей с каждой итерацией в ту сторону, в которую летела лучшая мыш из предыдущей итерации.
  ![Иллюстрация работы алгоритма](https://github.com/Shar170/Bat-Algorithm-Homework/blob/master/иллюстрация%20метода.png)
- ![Анимация роевого алгоритма](https://github.com/Shar170/Bat-Algorithm-Homework/blob/master/сходимость.png)
+ ![Анимация роевого алгоритма](https://github.com/Shar170/Bat-Algorithm-Homework/blob/master/сходимость.gif)
